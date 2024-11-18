@@ -1,0 +1,21 @@
+hospital,borough,patients_per_year,patients_per_day
+St George's Hospital,Wandsworth,150000,411
+The Royal London Hospital,Tower Hamlets,130000,356
+University College Hospital,Camden,120000,329
+King's College Hospital,Southwark/Lambeth,110000,301
+Guy's Hospital,Southwark,100000,274
+St Thomas' Hospital,Lambeth,95000,260
+Chelsea and Westminster Hospital,Kensington and Chelsea,90000,247
+Charing Cross Hospital,Hammersmith and Fulham,85000,233
+Hammersmith Hospital,Hammersmith and Fulham,80000,219
+St Mary's Hospital,Westminster,75000,205
+Queen Elizabeth Hospital,Greenwich,70000,192
+Homerton University Hospital,Hackney,65000,178
+North Middlesex University Hospital,Enfield,60000,164
+Whipps Cross University Hospital,Waltham Forest,55000,151
+Newham University Hospital,Newham,50000,137
+Royal Free Hospital,Camden,45000,123
+Barnet Hospital,Barnet,40000,110
+Ealing Hospital,Ealing,35000,96
+Lewisham Hospital,Lewisham,30000,82
+Croydon University Hospital,Croydon,25000,68
