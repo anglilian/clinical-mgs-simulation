@@ -8,7 +8,7 @@ import streamlit as st
 from scipy.stats import weibull_min
 
 # Constants and configuration
-N = 100  
+N = 9000  
 TOTAL_DAILY_PATIENTS = 12760
 COST_PER_TEST = 300
 DEFAULT_DAILY_CONTACTS = 10
@@ -148,9 +148,8 @@ def monte_carlo_simulation(days_range):
             remaining_susceptible = susceptible[-1] - new_infections
             if remaining_susceptible > 0:
                 new_contacts = min(np.random.randint(5,30), remaining_susceptible)
-                for contact in range(new_contacts):
-                    if np.random.random() < transmission_prob:
-                        new_infections +=1
+                random_probs = np.random.random(new_contacts) 
+                new_infections += np.sum(random_probs < transmission_prob) 
 
             # Removal
             if np.random.random() < fatality_rate: # Probability of recovery / death
@@ -160,10 +159,12 @@ def monte_carlo_simulation(days_range):
             
         # Testing for hospitalized cases
         if new_hospitalisations > 0:
-            for h in range(new_hospitalisations):
-                if np.random.random() < p_coverage:
-                    if np.random.random() < TEST_SENSITIVITY:
-                        new_positives += 1
+            covered_cases = np.random.random(new_hospitalisations) < p_coverage
+            num_covered = np.sum(covered_cases)
+
+            if num_covered > 0:
+                positive_results = np.random.random(num_covered) < TEST_SENSITIVITY
+                new_positives += np.sum(positive_results)
         
         # Log the day's results
         susceptible.append(susceptible[-1] - new_infections)
@@ -175,7 +176,7 @@ def monte_carlo_simulation(days_range):
 
 # Run simulations
 num_simulations = 10
-cumulative_infected, all_positive, first_positive_days = [], [], []
+cumulative_infected, all_positive, first_positive_days, ten_cases_days = [], [], [], []
 for _ in range(num_simulations):
     susceptible, infected, removed, positive = monte_carlo_simulation(np.arange(simulation_days)) 
     cumulative_infected.append(np.array(infected) + np.array(removed))
@@ -184,62 +185,42 @@ for _ in range(num_simulations):
     # Find first day with non-zero positive cases
     first_positive_days = next(
         (day for day, count in enumerate(positive) if count > 0), 
-        None  # return None if no positives found
+        None
     )
-
-# Average the results
-average_cumulative_infected = np.mean(cumulative_infected, axis=0)
-average_positive = np.mean(all_positive, axis=0)    
-average_first_positive_days = np.mean(first_positive_days)
-
-# Display statistics in a nice card layout
-st.markdown("### Simulation Results")
-col1, col2, col3 = st.columns(3)  # First row
-
-with col1:
-    covid_detection_time = 42  # 6 weeks * 7 days
-    days_earlier = covid_detection_time - first_positive_days
     
-    st.metric(
-        label="First Positive Case",
-        value=f"Day {int(average_first_positive_days)}",
-        delta=f"{days_earlier:.1f} days earlier than COVID",
-        delta_color="normal",
-        help="COVID-19 took 6 weeks to be detected in Wuhan"
+    # Find first day with 10 or more positive cases
+    ten_cases_days = next(
+        (day for day, count in enumerate(positive) if count >= 10), 
+        None
     )
 
-
-# Add second row of metrics
-col4, col5 = st.columns(2)  # Second row
-
-with col4:
-    st.metric(
-        label="Total Infected",
-        value=int(cumulative_infected[-1]),  # Get last value and convert to int
-        help="Final number of infected cases"
-    )
-
-with col5:
-    st.metric(
-        label="Tested Positive",
-        value=average_positive,
-        help="Total tested positive"
-    )
+# Calculate averages
+mean_cumulative_infected = np.mean(cumulative_infected, axis=0)
+average_positive = np.mean(all_positive, axis=0)
+average_first_positive_days = np.mean(first_positive_days)
+average_ten_cases_days = np.mean(ten_cases_days)
 
 # Plot results
 fig, ax = plt.subplots(figsize=(10, 6))
 
-ax.plot(range(simulation_days + 1), average_cumulative_infected, 
+ax.plot(range(simulation_days + 1), mean_cumulative_infected, 
         color='darkred', linewidth=2, label='Total ever infected')
 ax.plot(range(simulation_days + 1), average_positive, 
         color='green', linewidth=2, label='Total tested positive')
 
-# Add vertical line for detection day if disease was detected
+# Add vertical lines for detection milestones
 if average_first_positive_days is not None:
     ax.axvline(x=average_first_positive_days, color='black', linestyle='--', 
-               label=f'First Detection (Day {average_first_positive_days})')
-    ax.text(first_positive_days + 0.5, ax.get_ylim()[1] * 0.95, 
-            f'Detection: Day {first_positive_days}', 
+               label=f'First Detection (Day {int(average_first_positive_days)})')
+    ax.text(average_first_positive_days + 0.5, ax.get_ylim()[1] * 0.95, 
+            f'First Case: Day {int(average_first_positive_days)}', 
+            rotation=90, verticalalignment='top')
+
+if average_ten_cases_days is not None:
+    ax.axvline(x=average_ten_cases_days, color='red', linestyle='--', 
+               label=f'10 Cases (Day {int(average_ten_cases_days)})')
+    ax.text(average_ten_cases_days + 0.5, ax.get_ylim()[1] * 0.85,  # Note lower position
+            f'10 Cases: Day {int(average_ten_cases_days)}', 
             rotation=90, verticalalignment='top')
 
 ax.set_xlabel('Days')
