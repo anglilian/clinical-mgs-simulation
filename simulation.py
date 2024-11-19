@@ -215,8 +215,8 @@ col4, col5 = st.columns(2)  # Second row
 with col4:
     st.metric(
         label="Total Infected",
-        value=average_cumulative_infected[-1],
-        help="Total number of people infected"
+        value=int(cumulative_infected[-1]),  # Get last value and convert to int
+        help="Final number of infected cases"
     )
 
 with col5:
