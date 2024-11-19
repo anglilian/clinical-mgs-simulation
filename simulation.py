@@ -8,7 +8,7 @@ import streamlit as st
 from scipy.stats import weibull_min
 
 # Constants and configuration
-N = 9000  
+N = 100  
 TOTAL_DAILY_PATIENTS = 12760
 COST_PER_TEST = 300
 DEFAULT_DAILY_CONTACTS = 10
