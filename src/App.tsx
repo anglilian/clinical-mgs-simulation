@@ -75,23 +75,35 @@ function App() {
             />
 
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium text-gray-700">
-                Testing Rate:
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={params.testingRate}
-                onChange={(e) =>
-                  handleParamChange("testingRate", parseFloat(e.target.value))
-                }
-                className="w-48"
-              />
-              <span className="text-sm text-gray-600">
-                {(params.testingRate * 100).toFixed(0)}%
-              </span>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Activity className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">
+                    Testing Rate
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Percentage of symptomatic patients tested for the pathogen
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={params.testingRate}
+                  onChange={(e) =>
+                    handleParamChange("testingRate", parseFloat(e.target.value))
+                  }
+                  className="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                />
+                <span className="text-sm font-medium text-gray-900 min-w-[3ch]">
+                  {(params.testingRate * 100).toFixed(0)}%
+                </span>
+              </div>
             </div>
 
             <button
