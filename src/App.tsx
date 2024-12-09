@@ -4,14 +4,16 @@ import { SimulationParams, SimulationResults } from "./lib/types";
 import { runMonteCarloSimulation } from "./lib/monteCarloSimulation";
 import { SimulationChart } from "./components/SimulationChart";
 import { ModelAssumptions } from "./components/ModelAssumptions";
+import { DiseaseSelector } from "./components/DiseaseSelector";
+import { DiseasePreset, diseasePresets } from "./lib/diseasePresets";
 
 const defaultParams: SimulationParams = {
   totalPopulation: 10000,
-  transmissionProbability: 0.04,
+  transmissionProbability: diseasePresets[0].transmissionProbability,
   baseContactRate: 30,
   contactRateVariability: 10,
-  incubationPeriod: 6.67,
-  infectiousPeriod: 8,
+  incubationPeriod: diseasePresets[0].incubationPeriod,
+  infectiousPeriod: diseasePresets[0].infectiousPeriod,
   healthcareSeekingRate: 0.2,
   testingRate: 0.7,
   timeStep: 1,
@@ -22,6 +24,9 @@ function App() {
   const [params, setParams] = useState<SimulationParams>(defaultParams);
   const [results, setResults] = useState<SimulationResults | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [selectedDisease, setSelectedDisease] = useState(
+    diseasePresets[0].name
+  );
 
   const handleStartSimulation = () => {
     setIsRunning(true);
@@ -41,6 +46,16 @@ function App() {
     }));
   };
 
+  const handleDiseaseSelect = (preset: DiseasePreset) => {
+    setSelectedDisease(preset.name);
+    setParams((prev) => ({
+      ...prev,
+      transmissionProbability: preset.transmissionProbability,
+      incubationPeriod: preset.incubationPeriod,
+      infectiousPeriod: preset.infectiousPeriod,
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -52,7 +67,13 @@ function App() {
             </h1>
           </div>
 
-          <div className="mb-6 space-y-4">
+          <div className="mb-6 space-y-6">
+            <DiseaseSelector
+              presets={diseasePresets}
+              onSelect={handleDiseaseSelect}
+              selectedDisease={selectedDisease}
+            />
+
             <div className="flex items-center gap-4">
               <label className="text-sm font-medium text-gray-700">
                 Testing Rate:
