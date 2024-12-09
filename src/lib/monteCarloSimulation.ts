@@ -1,5 +1,10 @@
-import { SimulationState, SimulationParams, SimulationResults, AggregatedState } from './types';
-import { initializeSimulation, simulateStep } from './simulation';
+import {
+  SimulationState,
+  SimulationParams,
+  SimulationResults,
+  AggregatedState,
+} from "./types";
+import { initializeSimulation, simulateStep } from "./simulation";
 
 export function runMonteCarloSimulation(
   params: SimulationParams,
@@ -19,9 +24,11 @@ export function runMonteCarloSimulation(
       state = simulateStep(state, params);
       stateHistory.push(state);
 
-      if ((state.infected === 0 && state.exposed === 0) || 
-          state.tenthDetectionDay !== null || 
-          state.day > 365) {
+      if (
+        (state.infected === 0 && state.exposed === 0) ||
+        state.tenthDetectionDay !== null ||
+        state.day > 100
+      ) {
         break;
       }
     }
@@ -42,35 +49,39 @@ export function runMonteCarloSimulation(
     }
 
     // Calculate aggregated results
-    const maxDays = Math.max(...allRunsData.map(run => run.length));
+    const maxDays = Math.max(...allRunsData.map((run) => run.length));
     const aggregatedData: AggregatedState[] = [];
 
     for (let day = 0; day < maxDays; day++) {
-      let totalInfected = 0;
+      let totalCumulativeInfected = 0;
       let runsWithDay = 0;
 
-      allRunsData.forEach(run => {
+      allRunsData.forEach((run) => {
         if (run[day]) {
-          totalInfected += run[day].infected;
+          totalCumulativeInfected += run[day].infected + run[day].recovered;
           runsWithDay++;
         }
       });
 
       aggregatedData.push({
         day,
-        avgInfected: totalInfected / runsWithDay
+        avgInfected: totalCumulativeInfected / runsWithDay,
       });
     }
 
     const results: SimulationResults = {
       aggregatedData,
-      avgFirstDetectionDay: firstDetectionDays.length > 0 
-        ? firstDetectionDays.reduce((a, b) => a + b) / firstDetectionDays.length 
-        : 0,
-      avgTenthDetectionDay: tenthDetectionDays.length > 0
-        ? tenthDetectionDays.reduce((a, b) => a + b) / tenthDetectionDays.length
-        : 0,
-      completedRuns
+      avgFirstDetectionDay:
+        firstDetectionDays.length > 0
+          ? firstDetectionDays.reduce((a, b) => a + b) /
+            firstDetectionDays.length
+          : 0,
+      avgTenthDetectionDay:
+        tenthDetectionDays.length > 0
+          ? tenthDetectionDays.reduce((a, b) => a + b) /
+            tenthDetectionDays.length
+          : 0,
+      completedRuns,
     };
 
     onProgress(results);

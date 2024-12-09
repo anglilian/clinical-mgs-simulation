@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ChartAxisProps {
   width: number;
@@ -9,7 +9,14 @@ interface ChartAxisProps {
   dataLength: number;
 }
 
-export function ChartAxis({ width, height, padding, maxValue, yScale, dataLength }: ChartAxisProps) {
+export function ChartAxis({
+  width,
+  height,
+  padding,
+  maxValue,
+  yScale,
+  dataLength,
+}: ChartAxisProps) {
   const yAxisTicks = [0, 0.25, 0.5, 0.75, 1].map((percent) => ({
     y: yScale(maxValue * percent),
     value: Math.round(maxValue * percent),
@@ -43,7 +50,7 @@ export function ChartAxis({ width, height, padding, maxValue, yScale, dataLength
             y={y}
             textAnchor="end"
             dominantBaseline="middle"
-            className="text-xs fill-gray-500"
+            className="text-sm fill-gray-500"
           >
             {value}
           </text>
@@ -65,7 +72,7 @@ export function ChartAxis({ width, height, padding, maxValue, yScale, dataLength
         x={padding}
         y={height - padding + 20}
         textAnchor="middle"
-        className="text-xs fill-gray-500"
+        className="text-sm fill-gray-500"
       >
         Day 0
       </text>
@@ -73,7 +80,7 @@ export function ChartAxis({ width, height, padding, maxValue, yScale, dataLength
         x={width - padding}
         y={height - padding + 20}
         textAnchor="middle"
-        className="text-xs fill-gray-500"
+        className="text-sm fill-gray-500"
       >
         Day {dataLength - 1}
       </text>

@@ -13,6 +13,7 @@ export interface SimulationState {
 
 export interface SimulationParams {
   totalPopulation: number;
+  initialInfected: number;
   beta: number;
   sigma: number;
   gamma: number;

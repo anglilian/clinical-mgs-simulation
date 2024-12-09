@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { Activity } from 'lucide-react';
-import { SimulationParams, SimulationResults } from './lib/types';
-import { runMonteCarloSimulation } from './lib/monteCarloSimulation';
-import { SimulationChart } from './components/SimulationChart';
-import { ModelAssumptions } from './components/ModelAssumptions';
+import React, { useState } from "react";
+import { Activity } from "lucide-react";
+import { SimulationParams, SimulationResults } from "./lib/types";
+import { runMonteCarloSimulation } from "./lib/monteCarloSimulation";
+import { SimulationChart } from "./components/SimulationChart";
+import { ModelAssumptions } from "./components/ModelAssumptions";
 
 const defaultParams: SimulationParams = {
-  totalPopulation: 10000,
-  beta: 0.3,
-  sigma: 1/5.2,  // ~5.2 days incubation period
-  gamma: 1/7,    // ~7 days infectious period
+  totalPopulation: 1000,
+  beta: 1.19,
+  sigma: 1 / 5.2, // ~5.2 days incubation period
+  gamma: 1 / 7, // ~7 days infectious period
   healthcareSeekingRate: 0.5,
   testingRate: 0.8,
   testSpecificity: 0.85,
-  timeStep: 1,   // 1 day
+  timeStep: 1, // 1 day
+  initialInfected: 10,
 };
 
 function App() {
@@ -42,20 +43,20 @@ function App() {
               Monte Carlo SEIR Disease Spread Simulation
             </h1>
           </div>
-          
+
           <div className="mb-6">
             <button
               onClick={handleStartSimulation}
               disabled={isRunning}
               className={`px-4 py-2 rounded-md text-white font-medium ${
-                isRunning 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-blue-500 hover:bg-blue-600'
+                isRunning
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
               }`}
             >
-              {isRunning 
-                ? `Running... (${results?.completedRuns || 0}/100)` 
-                : 'Start Monte Carlo Simulation'}
+              {isRunning
+                ? `Running... (${results?.completedRuns || 0}/100)`
+                : "Start Monte Carlo Simulation"}
             </button>
           </div>
 

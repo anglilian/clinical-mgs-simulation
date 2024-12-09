@@ -1,5 +1,4 @@
-import React from 'react';
-import { AggregatedState } from '../../lib/types';
+import { AggregatedState } from "../../lib/types";
 
 interface DataLineProps {
   data: AggregatedState[];
@@ -10,7 +9,7 @@ interface DataLineProps {
 export function DataLine({ data, xScale, yScale }: DataLineProps) {
   const points = data
     .map((d, index) => `${xScale(index)},${yScale(d.avgInfected)}`)
-    .join(' ');
+    .join(" ");
 
   return (
     <polyline

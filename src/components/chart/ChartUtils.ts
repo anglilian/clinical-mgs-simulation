@@ -1,4 +1,6 @@
-import { AggregatedState } from '../../lib/types';
+import { AggregatedState } from "../../lib/types";
+
+export type ScaleFunction = (value: number) => number;
 
 export function createScales(
   width: number,
@@ -7,10 +9,10 @@ export function createScales(
   data: AggregatedState[],
   maxValue: number
 ) {
-  const xScale = (index: number): number => 
+  const xScale = (index: number): number =>
     padding + (index / (data.length - 1)) * (width - 2 * padding);
-  
-  const yScale = (value: number): number => 
+
+  const yScale = (value: number): number =>
     padding + ((maxValue - value) / maxValue) * (height - 2 * padding);
 
   return { xScale, yScale };
