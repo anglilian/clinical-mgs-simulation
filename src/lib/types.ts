@@ -5,7 +5,6 @@ export interface SimulationState {
   recovered: number;
   hospitalized: number;
   tested: number;
-  detectedCases: number;
   day: number;
   firstDetectionDay: number | null;
   tenthDetectionDay: number | null;
@@ -14,12 +13,13 @@ export interface SimulationState {
 export interface SimulationParams {
   totalPopulation: number;
   initialInfected: number;
-  beta: number;
-  sigma: number;
-  gamma: number;
+  transmissionProbability: number;
+  baseContactRate: number;
+  contactRateVariability: number;
+  infectiousPeriod: number;
+  incubationPeriod: number;
   healthcareSeekingRate: number;
   testingRate: number;
-  testSpecificity: number;
   timeStep: number;
 }
 

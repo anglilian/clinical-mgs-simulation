@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Activity } from "lucide-react";
 import { SimulationParams, SimulationResults } from "./lib/types";
 import { runMonteCarloSimulation } from "./lib/monteCarloSimulation";
@@ -6,19 +6,20 @@ import { SimulationChart } from "./components/SimulationChart";
 import { ModelAssumptions } from "./components/ModelAssumptions";
 
 const defaultParams: SimulationParams = {
-  totalPopulation: 1000,
-  beta: 1.19,
-  sigma: 1 / 5.2, // ~5.2 days incubation period
-  gamma: 1 / 7, // ~7 days infectious period
-  healthcareSeekingRate: 0.5,
-  testingRate: 0.8,
-  testSpecificity: 0.85,
-  timeStep: 1, // 1 day
+  totalPopulation: 10000,
+  transmissionProbability: 0.04,
+  baseContactRate: 30,
+  contactRateVariability: 10,
+  incubationPeriod: 6.67,
+  infectiousPeriod: 8,
+  healthcareSeekingRate: 0.2,
+  testingRate: 0.7,
+  timeStep: 1,
   initialInfected: 10,
 };
 
 function App() {
-  const [params] = useState<SimulationParams>(defaultParams);
+  const [params, setParams] = useState<SimulationParams>(defaultParams);
   const [results, setResults] = useState<SimulationResults | null>(null);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -33,6 +34,13 @@ function App() {
     });
   };
 
+  const handleParamChange = (key: keyof SimulationParams, value: number) => {
+    setParams((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -44,7 +52,27 @@ function App() {
             </h1>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 space-y-4">
+            <div className="flex items-center gap-4">
+              <label className="text-sm font-medium text-gray-700">
+                Testing Rate:
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={params.testingRate}
+                onChange={(e) =>
+                  handleParamChange("testingRate", parseFloat(e.target.value))
+                }
+                className="w-48"
+              />
+              <span className="text-sm text-gray-600">
+                {(params.testingRate * 100).toFixed(0)}%
+              </span>
+            </div>
+
             <button
               onClick={handleStartSimulation}
               disabled={isRunning}
@@ -56,7 +84,7 @@ function App() {
             >
               {isRunning
                 ? `Running... (${results?.completedRuns || 0}/100)`
-                : "Start Monte Carlo Simulation"}
+                : "Start simulation"}
             </button>
           </div>
 

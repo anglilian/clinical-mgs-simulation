@@ -44,6 +44,9 @@ export function SimulationChart({ results }: Props) {
             maxValue={maxValue}
             yScale={yScale}
             dataLength={results.aggregatedData.length}
+            avgFirstDetectionDay={results.avgFirstDetectionDay}
+            avgTenthDetectionDay={results.avgTenthDetectionDay}
+            xScale={xScale}
           />
 
           <DataLine
@@ -64,11 +67,11 @@ export function SimulationChart({ results }: Props) {
 
       <div className="mt-6 text-base text-gray-600 space-y-1">
         <p>
-          Average first case detection: Day{" "}
+          Average first positive case detected: Day{" "}
           {results.avgFirstDetectionDay.toFixed(1)}
         </p>
         <p>
-          Average tenth case detection: Day{" "}
+          Average tenth positive case detected: Day{" "}
           {results.avgTenthDetectionDay.toFixed(1)}
         </p>
       </div>

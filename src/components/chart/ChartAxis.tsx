@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ChartAxisProps {
   width: number;
   height: number;
@@ -16,7 +14,14 @@ export function ChartAxis({
   maxValue,
   yScale,
   dataLength,
-}: ChartAxisProps) {
+  avgFirstDetectionDay,
+  avgTenthDetectionDay,
+  xScale,
+}: ChartAxisProps & {
+  avgFirstDetectionDay: number;
+  avgTenthDetectionDay: number;
+  xScale: (index: number) => number;
+}) {
   const yAxisTicks = [0, 0.25, 0.5, 0.75, 1].map((percent) => ({
     y: yScale(maxValue * percent),
     value: Math.round(maxValue * percent),
@@ -83,6 +88,24 @@ export function ChartAxis({
         className="text-sm fill-gray-500"
       >
         Day {dataLength - 1}
+      </text>
+
+      {/* X-axis labels for average detection days */}
+      <text
+        x={xScale(avgFirstDetectionDay)}
+        y={height - padding + 20}
+        textAnchor="middle"
+        className="text-sm fill-green-600"
+      >
+        Day {avgFirstDetectionDay.toFixed(1)}
+      </text>
+      <text
+        x={xScale(avgTenthDetectionDay)}
+        y={height - padding + 20}
+        textAnchor="middle"
+        className="text-sm fill-yellow-600"
+      >
+        Day {avgTenthDetectionDay.toFixed(1)}
       </text>
     </>
   );
