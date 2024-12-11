@@ -22,19 +22,30 @@ export function ChartAxis({
   avgTenthDetectionDay: number;
   xScale: (index: number) => number;
 }) {
-  const yAxisTicks = [0, 0.25, 0.5, 0.75, 1].map((percent) => ({
-    y: yScale(maxValue * percent),
-    value: Math.round(maxValue * percent),
-  }));
+  const generateNiceTicks = (maxValue: number) => {
+    const step = Math.pow(10, Math.floor(Math.log10(maxValue)));
+    const niceMax = Math.ceil(maxValue / step) * step;
+
+    const ticks = [];
+    for (let value = 0; value <= niceMax; value += step) {
+      ticks.push({
+        y: yScale(value),
+        value: value,
+      });
+    }
+    return ticks;
+  };
+
+  const yAxisTicks = generateNiceTicks(maxValue);
 
   return (
     <>
       {/* Y-axis line */}
       <line
         x1={padding}
-        y1={padding}
+        y1={height - padding}
         x2={padding}
-        y2={height - padding}
+        y2={padding}
         stroke="#94a3b8"
         strokeWidth="1"
       />
@@ -49,6 +60,9 @@ export function ChartAxis({
             y2={y}
             stroke="#e2e8f0"
             strokeWidth="1"
+            style={{
+              display: y < padding || y > height - padding ? "none" : undefined,
+            }}
           />
           <text
             x={padding - 10}
@@ -56,6 +70,9 @@ export function ChartAxis({
             textAnchor="end"
             dominantBaseline="middle"
             className="text-sm fill-gray-500"
+            style={{
+              display: y < padding || y > height - padding ? "none" : undefined,
+            }}
           >
             {value}
           </text>

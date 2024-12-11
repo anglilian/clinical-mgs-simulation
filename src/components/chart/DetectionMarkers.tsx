@@ -1,4 +1,5 @@
 import { ScaleFunction } from "./ChartUtils";
+import { DiseasePreset } from "../../lib/types";
 
 interface DetectionMarkersProps {
   xScale: ScaleFunction;
@@ -8,6 +9,7 @@ interface DetectionMarkersProps {
   tenthDetectionDay: number;
   firstDetectionDayCI: [number, number];
   tenthDetectionDayCI: [number, number];
+  disease: DiseasePreset;
 }
 
 export function DetectionMarkers({
@@ -16,29 +18,32 @@ export function DetectionMarkers({
   padding,
   firstDetectionDay,
   tenthDetectionDay,
+  disease,
 }: DetectionMarkersProps) {
   return (
     <>
       {/* COVID-19 Detection marker */}
-      <g>
-        <line
-          x1={xScale(14)}
-          y1={padding}
-          x2={xScale(14)}
-          y2={height - padding}
-          stroke="#dc2626"
-          strokeWidth="1"
-          strokeDasharray="4"
-        />
-        <text
-          x={xScale(14)}
-          y={padding - 10}
-          textAnchor="middle"
-          className="text-sm fill-red-600 font-medium"
-        >
-          COVID-19 Detected
-        </text>
-      </g>
+      {disease.firstDetectionDay && (
+        <g>
+          <line
+            x1={xScale(disease.firstDetectionDay)}
+            y1={padding}
+            x2={xScale(disease.firstDetectionDay)}
+            y2={height - padding}
+            stroke="#dc2626"
+            strokeWidth="1"
+            strokeDasharray="4"
+          />
+          <text
+            x={xScale(disease.firstDetectionDay)}
+            y={padding - 10}
+            textAnchor="middle"
+            className="text-sm fill-red-600 font-medium"
+          >
+            {disease.name} Detected
+          </text>
+        </g>
+      )}
       {/* First detection marker */}
       <g>
         <line

@@ -12,7 +12,7 @@ import { DiseaseSelector } from "./components/DiseaseSelector";
 import { diseasePresets } from "./lib/diseasePresets";
 
 const defaultParams: SimulationParams = {
-  totalPopulation: 100000,
+  totalPopulation: 1000000,
   baseContactRate: 20,
   disease: diseasePresets[0],
   contactRateVariability: 10,

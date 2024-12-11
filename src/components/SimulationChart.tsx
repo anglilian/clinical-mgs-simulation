@@ -74,11 +74,17 @@ export function SimulationChart({ results }: Props) {
             tenthDetectionDay={results.avgTenthDetectionDay}
             firstDetectionDayCI={results.firstDetectionDay95CI}
             tenthDetectionDayCI={results.tenthDetectionDay95CI}
+            disease={results.disease}
           />
         </svg>
       </div>
 
-      <DetectionImpact tenthDetectionDay={results.avgTenthDetectionDay} />
+      {results.disease.firstDetectionDay && (
+        <DetectionImpact
+          tenthDetectionDay={results.avgTenthDetectionDay}
+          disease={results.disease}
+        />
+      )}
     </div>
   );
 }

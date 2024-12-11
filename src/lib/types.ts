@@ -34,6 +34,7 @@ export interface SimulationResults {
   firstDetectionDay95CI: [number, number];
   tenthDetectionDay95CI: [number, number];
   completedRuns: number;
+  disease: DiseasePreset;
 }
 
 export interface DiseasePreset {
@@ -41,4 +42,5 @@ export interface DiseasePreset {
   r0: number;
   incubationPeriod: number;
   infectiousPeriod: number;
+  firstDetectionDay?: number;
 }

@@ -6,6 +6,7 @@ export const diseasePresets: DiseasePreset[] = [
     r0: 2.5,
     incubationPeriod: 6.67,
     infectiousPeriod: 8.0,
+    firstDetectionDay: 14,
   },
   {
     name: "SARS-CoV-2 (Omicron)",

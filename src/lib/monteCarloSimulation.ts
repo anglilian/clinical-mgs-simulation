@@ -89,6 +89,7 @@ export function runMonteCarloSimulation(
       firstDetectionDay95CI,
       tenthDetectionDay95CI,
       completedRuns,
+      disease: params.disease,
     };
 
     onProgress(results);

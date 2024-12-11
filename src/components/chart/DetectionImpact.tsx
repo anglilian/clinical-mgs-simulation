@@ -1,9 +1,17 @@
+import { DiseasePreset } from "../../lib/types";
+
 interface DetectionImpactProps {
   tenthDetectionDay: number;
+  disease: DiseasePreset;
 }
 
-export function DetectionImpact({ tenthDetectionDay }: DetectionImpactProps) {
-  const timeDifference = Math.abs(14 - tenthDetectionDay);
+export function DetectionImpact({
+  tenthDetectionDay,
+  disease,
+}: DetectionImpactProps) {
+  const timeDifference = Math.abs(
+    disease.firstDetectionDay - tenthDetectionDay
+  );
 
   return (
     <>
@@ -15,13 +23,13 @@ export function DetectionImpact({ tenthDetectionDay }: DetectionImpactProps) {
               <>
                 Early detection provided approximately{" "}
                 <strong>{timeDifference.toFixed(1)} additional days</strong> to
-                respond compared to historical COVID-19 detection.
+                respond compared to historical {disease.name} detection.
               </>
             ) : (
               <>
                 Delayed detection resulted in approximately{" "}
                 <strong>{timeDifference.toFixed(1)} fewer days</strong> to
-                respond compared to historical COVID-19 detection.
+                respond compared to historical {disease.name} detection.
               </>
             )}
           </p>
