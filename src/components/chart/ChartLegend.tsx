@@ -4,8 +4,8 @@ interface ChartLegendProps {
 
 export function ChartLegend({ completedRuns }: ChartLegendProps) {
   return (
-    <div className="mb-4">
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">
+    <div className="mb-4 space-y-3">
+      <h3 className="text-xl font-semibold text-gray-800">
         Average Cumulative Infections (from {completedRuns} runs)
       </h3>
       <div className="flex items-center gap-2">

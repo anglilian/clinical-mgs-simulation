@@ -12,12 +12,12 @@ import { DiseaseSelector } from "./components/DiseaseSelector";
 import { diseasePresets } from "./lib/diseasePresets";
 
 const defaultParams: SimulationParams = {
-  totalPopulation: 10000,
+  totalPopulation: 100000,
   baseContactRate: 20,
   disease: diseasePresets[0],
   contactRateVariability: 10,
-  healthcareSeekingRate: 0.125,
-  testingRate: 0.3,
+  healthcareSeekingRate: 0.5,
+  testingRate: 0.16,
   timeStep: 1,
   initialInfected: 10,
   numRuns: 1000,
@@ -85,7 +85,8 @@ function App() {
                     Testing Rate
                   </p>
                   <p className="text-sm text-gray-500">
-                    Percentage of symptomatic patients tested for the pathogen
+                    Percentage of infected healthcare-seeking individuals tested
+                    for the pathogen
                   </p>
                 </div>
               </div>

@@ -25,9 +25,9 @@ export function runMonteCarloSimulation(
       stateHistory.push(state);
 
       if (
-        (state.infected === 0 && state.exposed === 0) ||
-        state.tenthDetectionDay !== null ||
-        state.day > 100
+        ((state.infected === 0 && state.exposed === 0) ||
+          state.tenthDetectionDay !== null) &&
+        state.day >= 20
       ) {
         break;
       }

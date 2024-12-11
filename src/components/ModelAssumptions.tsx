@@ -22,9 +22,7 @@ export function ModelAssumptions({ params }: Props) {
           </h3>
           <div className="space-y-2">
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Transmission Probability
-              </p>
+              <h3>Transmission Probability</h3>
               <p className="text-sm text-gray-500">
                 {((params.disease.r0 / params.baseContactRate) * 100).toFixed(
                   1
@@ -33,9 +31,7 @@ export function ModelAssumptions({ params }: Props) {
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Incubation Period
-              </p>
+              <h3>Incubation Period</h3>
               <p className="text-sm text-gray-500">
                 {params.disease.incubationPeriod} days - time from exposure to
                 becoming infectious
@@ -43,9 +39,7 @@ export function ModelAssumptions({ params }: Props) {
             </div>
 
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Infectious Period
-              </p>
+              <h3>Infectious Period</h3>
               <p className="text-sm text-gray-500">
                 {params.disease.infectiousPeriod} days - duration of
                 infectiousness
@@ -58,33 +52,27 @@ export function ModelAssumptions({ params }: Props) {
           <h3 className="font-medium text-gray-700">Detection Parameters</h3>
           <div className="space-y-2">
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Population Size
-              </p>
+              <h3>Population Size</h3>
               <p className="text-sm text-gray-500">
                 {params.totalPopulation.toLocaleString()} individuals
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Daily Contacts
-              </p>
+              <h3>Daily Contacts</h3>
               <p className="text-sm text-gray-500">
                 {params.baseContactRate} ± {params.contactRateVariability}{" "}
                 contacts per day
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">
-                Healthcare Seeking Rate
-              </p>
+              <h3>Healthcare Seeking Rate</h3>
               <p className="text-sm text-gray-500">
                 {params.healthcareSeekingRate * 100}% of infected individuals
                 seek medical care
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Testing Rate</p>
+              <h3>Testing Rate</h3>
               <p className="text-sm text-gray-500">
                 {(params.testingRate * 100).toFixed(0)}% of healthcare-seeking
                 individuals are tested
@@ -99,6 +87,18 @@ export function ModelAssumptions({ params }: Props) {
             <li>
               Uses a tau-leaping SEIR (Susceptible-Exposed-Infected-Recovered)
               model
+            </li>
+            <li>
+              Replicates the model in the paper{" "}
+              <a
+                href="https://pubmed.ncbi.nlm.nih.gov/37367195/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                "Threat Net: A Metagenomic Surveillance Network for Biothreat
+                Detection and Early Warning"
+              </a>
             </li>
             <li>
               Transitions between states follow Poisson distributions to capture

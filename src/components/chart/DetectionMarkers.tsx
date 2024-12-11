@@ -16,11 +16,29 @@ export function DetectionMarkers({
   padding,
   firstDetectionDay,
   tenthDetectionDay,
-  firstDetectionDayCI,
-  tenthDetectionDayCI,
 }: DetectionMarkersProps) {
   return (
     <>
+      {/* COVID-19 Detection marker */}
+      <g>
+        <line
+          x1={xScale(14)}
+          y1={padding}
+          x2={xScale(14)}
+          y2={height - padding}
+          stroke="#dc2626"
+          strokeWidth="1"
+          strokeDasharray="4"
+        />
+        <text
+          x={xScale(14)}
+          y={padding - 10}
+          textAnchor="middle"
+          className="text-sm fill-red-600 font-medium"
+        >
+          COVID-19 Detected
+        </text>
+      </g>
       {/* First detection marker */}
       <g>
         <line

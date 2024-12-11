@@ -5,6 +5,7 @@ import { ChartLegend } from "./chart/ChartLegend";
 import { createScales } from "./chart/ChartUtils";
 import { DetectionMarkers } from "./chart/DetectionMarkers";
 import { ConfidenceBand } from "./chart/ConfidenceBand";
+import { DetectionImpact } from "./chart/DetectionImpact";
 
 interface Props {
   results: SimulationResults | null;
@@ -77,16 +78,7 @@ export function SimulationChart({ results }: Props) {
         </svg>
       </div>
 
-      <div className="mt-6 text-base text-gray-600 space-y-1">
-        <p>
-          Average first positive case detected: Day{" "}
-          {results.avgFirstDetectionDay.toFixed(1)}
-        </p>
-        <p>
-          Average tenth positive case detected: Day{" "}
-          {results.avgTenthDetectionDay.toFixed(1)}
-        </p>
-      </div>
+      <DetectionImpact tenthDetectionDay={results.avgTenthDetectionDay} />
     </div>
   );
 }
