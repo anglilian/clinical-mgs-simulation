@@ -5,10 +5,10 @@ import {
   AggregatedState,
 } from "./types";
 import { initializeSimulation, simulateStep } from "./simulation";
+import { calculateConfidenceInterval } from "./statisticsUtils";
 
 export function runMonteCarloSimulation(
   params: SimulationParams,
-  numRuns: number = 100,
   onProgress: (results: SimulationResults) => void
 ): void {
   let completedRuns = 0;
@@ -69,6 +69,11 @@ export function runMonteCarloSimulation(
       });
     }
 
+    const firstDetectionDay95CI =
+      calculateConfidenceInterval(firstDetectionDays);
+    const tenthDetectionDay95CI =
+      calculateConfidenceInterval(tenthDetectionDays);
+
     const results: SimulationResults = {
       aggregatedData,
       avgFirstDetectionDay:
@@ -81,12 +86,14 @@ export function runMonteCarloSimulation(
           ? tenthDetectionDays.reduce((a, b) => a + b) /
             tenthDetectionDays.length
           : 0,
+      firstDetectionDay95CI,
+      tenthDetectionDay95CI,
       completedRuns,
     };
 
     onProgress(results);
 
-    if (completedRuns < numRuns) {
+    if (completedRuns < params.numRuns) {
       setTimeout(processRun, 0);
     }
   };

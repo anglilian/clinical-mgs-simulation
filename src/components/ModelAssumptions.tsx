@@ -17,7 +17,45 @@ export function ModelAssumptions({ params }: Props) {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Disease Parameters</h3>
+          <h3 className="font-medium text-gray-700">
+            {params.disease.name} disease characteristics
+          </h3>
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm font-medium text-gray-600">
+                Transmission Probability
+              </p>
+              <p className="text-sm text-gray-500">
+                {((params.disease.r0 / params.baseContactRate) * 100).toFixed(
+                  1
+                )}
+                % chance per contact
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">
+                Incubation Period
+              </p>
+              <p className="text-sm text-gray-500">
+                {params.disease.incubationPeriod} days - time from exposure to
+                becoming infectious
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-gray-600">
+                Infectious Period
+              </p>
+              <p className="text-sm text-gray-500">
+                {params.disease.infectiousPeriod} days - duration of
+                infectiousness
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-medium text-gray-700">Detection Parameters</h3>
           <div className="space-y-2">
             <div>
               <p className="text-sm font-medium text-gray-600">
@@ -29,32 +67,6 @@ export function ModelAssumptions({ params }: Props) {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-600">
-                Incubation Period
-              </p>
-              <p className="text-sm text-gray-500">
-                {params.incubationPeriod} days - time from exposure to becoming
-                infectious
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">
-                Transmission Probability
-              </p>
-              <p className="text-sm text-gray-500">
-                {(params.transmissionProbability * 100).toFixed(1)}% chance per
-                contact
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">
-                Infectious Period
-              </p>
-              <p className="text-sm text-gray-500">
-                {params.infectiousPeriod} days - duration of infectiousness
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-600">
                 Daily Contacts
               </p>
               <p className="text-sm text-gray-500">
@@ -62,12 +74,6 @@ export function ModelAssumptions({ params }: Props) {
                 contacts per day
               </p>
             </div>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Detection Parameters</h3>
-          <div className="space-y-2">
             <div>
               <p className="text-sm font-medium text-gray-600">
                 Healthcare Seeking Rate
@@ -102,7 +108,10 @@ export function ModelAssumptions({ params }: Props) {
               Healthcare seeking and testing follow Binomial distributions
             </li>
             <li>Time step (τ) is {params.timeStep} day</li>
-            <li>Simulation starts with one infected individual</li>
+            <li>
+              Simulation starts with {params.initialInfected} infected
+              {params.initialInfected > 1 ? " individuals" : " individual"}
+            </li>
           </ul>
         </div>
       </div>

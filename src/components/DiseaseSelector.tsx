@@ -1,5 +1,5 @@
 import { Bug } from "lucide-react";
-import { DiseasePreset } from "../lib/diseasePresets";
+import { DiseasePreset } from "../lib/types";
 
 interface Props {
   presets: DiseasePreset[];

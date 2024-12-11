@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { Activity } from "lucide-react";
-import { SimulationParams, SimulationResults } from "./lib/types";
+import {
+  SimulationParams,
+  SimulationResults,
+  DiseasePreset,
+} from "./lib/types";
 import { runMonteCarloSimulation } from "./lib/monteCarloSimulation";
 import { SimulationChart } from "./components/SimulationChart";
 import { ModelAssumptions } from "./components/ModelAssumptions";
 import { DiseaseSelector } from "./components/DiseaseSelector";
-import { DiseasePreset, diseasePresets } from "./lib/diseasePresets";
+import { diseasePresets } from "./lib/diseasePresets";
 
 const defaultParams: SimulationParams = {
   totalPopulation: 10000,
-  transmissionProbability: diseasePresets[0].transmissionProbability,
-  baseContactRate: 30,
+  baseContactRate: 20,
+  disease: diseasePresets[0],
   contactRateVariability: 10,
-  incubationPeriod: diseasePresets[0].incubationPeriod,
-  infectiousPeriod: diseasePresets[0].infectiousPeriod,
-  healthcareSeekingRate: 0.2,
-  testingRate: 0.7,
+  healthcareSeekingRate: 0.125,
+  testingRate: 0.3,
   timeStep: 1,
   initialInfected: 10,
+  numRuns: 1000,
 };
 
 function App() {
@@ -31,9 +34,9 @@ function App() {
   const handleStartSimulation = () => {
     setIsRunning(true);
     setResults(null);
-    runMonteCarloSimulation(params, 100, (newResults) => {
+    runMonteCarloSimulation(params, (newResults) => {
       setResults(newResults);
-      if (newResults.completedRuns === 100) {
+      if (newResults.completedRuns === params.numRuns) {
         setIsRunning(false);
       }
     });
@@ -50,9 +53,7 @@ function App() {
     setSelectedDisease(preset.name);
     setParams((prev) => ({
       ...prev,
-      transmissionProbability: preset.transmissionProbability,
-      incubationPeriod: preset.incubationPeriod,
-      infectiousPeriod: preset.infectiousPeriod,
+      disease: preset,
     }));
   };
 
@@ -61,8 +62,8 @@ function App() {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex items-center gap-3 mb-6">
-            <Activity className="w-8 h-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-800">
+            <Activity className="w-5 h-5 text-blue-600" />
+            <h1 className="text-2xl font-bold text-gray-900">
               Monte Carlo SEIR Disease Spread Simulation
             </h1>
           </div>
@@ -116,7 +117,9 @@ function App() {
               }`}
             >
               {isRunning
-                ? `Running... (${results?.completedRuns || 0}/100)`
+                ? `Running... (${results?.completedRuns || 0}/${
+                    params.numRuns
+                  })`
                 : "Start simulation"}
             </button>
           </div>

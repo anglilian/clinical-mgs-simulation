@@ -6,6 +6,8 @@ interface DetectionMarkersProps {
   padding: number;
   firstDetectionDay: number;
   tenthDetectionDay: number;
+  firstDetectionDayCI: [number, number];
+  tenthDetectionDayCI: [number, number];
 }
 
 export function DetectionMarkers({
@@ -14,6 +16,8 @@ export function DetectionMarkers({
   padding,
   firstDetectionDay,
   tenthDetectionDay,
+  firstDetectionDayCI,
+  tenthDetectionDayCI,
 }: DetectionMarkersProps) {
   return (
     <>

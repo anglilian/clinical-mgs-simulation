@@ -1,5 +1,5 @@
 import { SimulationState, SimulationParams } from "./types";
-import { poissonRandom, binomialRandom, normalRandom } from "./poissonUtils";
+import { poissonRandom, binomialRandom, normalRandom } from "./statisticsUtils";
 
 export function initializeSimulation(
   params: SimulationParams
@@ -28,7 +28,8 @@ export function simulateStep(
   );
 
   // Calculate effective beta (transmission rate) for this time step
-  const effectiveBeta = params.transmissionProbability * dailyContactRate;
+  const transmissionProbability = params.disease.r0 / params.baseContactRate;
+  const effectiveBeta = transmissionProbability * dailyContactRate;
 
   // Calculate lambda for new exposures using the effective beta
   const infectionLambda =
@@ -38,11 +39,11 @@ export function simulateStep(
 
   // Calculate lambda for exposed becoming infected
   const exposedToInfectedLambda =
-    (1 / params.incubationPeriod) * state.exposed * params.timeStep;
+    (1 / params.disease.incubationPeriod) * state.exposed * params.timeStep;
 
   // Calculate lambda for recovery
   const recoveryLambda =
-    (1 / params.infectiousPeriod) * state.infected * params.timeStep;
+    (1 / params.disease.infectiousPeriod) * state.infected * params.timeStep;
 
   // Generate Poisson random numbers for transitions
   const newExposed = Math.min(

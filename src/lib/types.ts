@@ -13,14 +13,13 @@ export interface SimulationState {
 export interface SimulationParams {
   totalPopulation: number;
   initialInfected: number;
-  transmissionProbability: number;
   baseContactRate: number;
   contactRateVariability: number;
-  infectiousPeriod: number;
-  incubationPeriod: number;
   healthcareSeekingRate: number;
   testingRate: number;
   timeStep: number;
+  numRuns: number;
+  disease: DiseasePreset;
 }
 
 export interface AggregatedState {
@@ -32,5 +31,14 @@ export interface SimulationResults {
   aggregatedData: AggregatedState[];
   avgFirstDetectionDay: number;
   avgTenthDetectionDay: number;
+  firstDetectionDay95CI: [number, number];
+  tenthDetectionDay95CI: [number, number];
   completedRuns: number;
+}
+
+export interface DiseasePreset {
+  name: string;
+  r0: number;
+  incubationPeriod: number;
+  infectiousPeriod: number;
 }

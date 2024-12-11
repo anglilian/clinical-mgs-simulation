@@ -4,6 +4,7 @@ import { DataLine } from "./chart/DataLine";
 import { ChartLegend } from "./chart/ChartLegend";
 import { createScales } from "./chart/ChartUtils";
 import { DetectionMarkers } from "./chart/DetectionMarkers";
+import { ConfidenceBand } from "./chart/ConfidenceBand";
 
 interface Props {
   results: SimulationResults | null;
@@ -37,6 +38,15 @@ export function SimulationChart({ results }: Props) {
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-full"
         >
+          <ConfidenceBand
+            xScale={xScale}
+            height={height}
+            padding={padding}
+            firstDetectionDayCI={results.firstDetectionDay95CI}
+            tenthDetectionDayCI={results.tenthDetectionDay95CI}
+            firstDetectionDay={0}
+            tenthDetectionDay={0}
+          />
           <ChartAxis
             width={width}
             height={height}
@@ -61,6 +71,8 @@ export function SimulationChart({ results }: Props) {
             padding={padding}
             firstDetectionDay={results.avgFirstDetectionDay}
             tenthDetectionDay={results.avgTenthDetectionDay}
+            firstDetectionDayCI={results.firstDetectionDay95CI}
+            tenthDetectionDayCI={results.tenthDetectionDay95CI}
           />
         </svg>
       </div>

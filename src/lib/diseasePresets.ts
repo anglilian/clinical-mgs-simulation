@@ -1,38 +1,33 @@
-export interface DiseasePreset {
-  name: string;
-  transmissionProbability: number;
-  incubationPeriod: number;
-  infectiousPeriod: number;
-}
+import { DiseasePreset } from "./types";
 
 export const diseasePresets: DiseasePreset[] = [
   {
     name: "SARS-CoV-2 (Wild-type)",
-    transmissionProbability: 0.32,
+    r0: 2.5,
     incubationPeriod: 6.67,
     infectiousPeriod: 8.0,
   },
   {
     name: "SARS-CoV-2 (Omicron)",
-    transmissionProbability: 1.19,
+    r0: 9.5,
     incubationPeriod: 4.0,
     infectiousPeriod: 8.0,
   },
   {
     name: "SARS",
-    transmissionProbability: 0.24,
+    r0: 2.4,
     incubationPeriod: 4.0,
     infectiousPeriod: 10.0,
   },
   {
     name: "Seasonal Influenza",
-    transmissionProbability: 0.33,
+    r0: 2.0,
     incubationPeriod: 2.0,
     infectiousPeriod: 4.0,
   },
   {
     name: "1918 Influenza",
-    transmissionProbability: 0.5,
+    r0: 0.5,
     incubationPeriod: 2.0,
     infectiousPeriod: 4.0,
   },
