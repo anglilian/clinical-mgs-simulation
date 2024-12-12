@@ -82,6 +82,41 @@ function App() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">
+                    Healthcare Seeking Rate
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Percentage of infected individuals who seek medical care
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={params.healthcareSeekingRate}
+                  onChange={(e) =>
+                    handleParamChange(
+                      "healthcareSeekingRate",
+                      parseFloat(e.target.value)
+                    )
+                  }
+                  className="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                />
+                <span className="text-sm font-medium text-gray-900 min-w-[3ch]">
+                  {(params.healthcareSeekingRate * 100).toFixed(0)}%
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Activity className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">
                     Testing Rate
                   </p>
                   <p className="text-sm text-gray-500">
